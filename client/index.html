@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AppCenter Ziqva Labs - Modern Digital Marketplace</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- Vendor & Theme Stylesheet -->
+    <link rel="stylesheet" href="/vendor/shadcn-tailwind-4.13.0.css" />
+    <link rel="stylesheet" href="/css/appcenter-theme.css" />
+
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: ['class', '[data-theme="dark"]'],
+        theme: {
+          extend: {
+            colors: {
+              brand: '#2563eb',
+              'brand-soft': '#eff6ff',
+              page: 'var(--page)',
+              surface: 'var(--surface)',
+              'surface-2': 'var(--surface-2)',
+            }
+          }
+        }
+      };
+    </script>
+
+    <!-- Theme FOUC Prevention & Path-to-Hash Converter Script -->
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('ziqva-theme');
+          var isDark = saved ? (saved === 'dark') : true;
+          var html = document.documentElement;
+          if (isDark) {
+            html.setAttribute('data-theme', 'dark');
+            html.classList.add('dark');
+          } else {
+            html.setAttribute('data-theme', 'light');
+            html.classList.remove('dark');
+          }
+
+          var path = window.location.pathname;
+          var search = window.location.search;
+          if (path === '/' && !window.location.hash) {
+            window.location.hash = '/';
+          } else if ((path.startsWith('/member') || path.startsWith('/admin')) && !window.location.hash) {
+            window.location.hash = path + search;
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-[var(--page)] text-[var(--text)] transition-colors antialiased min-h-screen">
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

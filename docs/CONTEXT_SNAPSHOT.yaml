@@ -1,0 +1,271 @@
+SnapshotVersion: 261
+LastMergedAt: '2026-09-16T07:15:00.000Z'
+MergeType: additive
+branch: reborn
+project: appcenterv2
+summary: 'Refined Affiliate Stat Cards to Compact Pro Max Metric Hierarchy: Rebalanced the 4 hero stat cards into sleek, compact metric cards with unified height, clean 3-tier hierarchy (Category & Status Header, Monospaced Primary Metric, Single-Line Subtext), eliminated oversized nested ticket box and random bank footer text, and verified visual rendering in browser.'
+tests_verified: true
+ProjectOverview:
+  name: Appcenter Ziqva
+  description: Automated software hub, license licensing platform, and member center
+  stack: Express 5 + TypeScript + Prisma ORM + MySQL + Svelte 4 / Vite SPA + PNPM
+  port: 4829
+HowToRun:
+  dev: pnpm run dev
+  build: pnpm run build
+  start: pnpm start
+  test_simulation: pnpm run test:simulation
+  backup_db: pnpm run backupdb:scheme
+ArchitectureMap:
+  backend:
+    entry: src/server.ts
+    app: src/app.ts
+    controllers:
+      member: src/controllers/memberController.ts
+      device: src/controllers/deviceController.ts
+      admin: src/controllers/adminController.ts
+    routes:
+      member: src/routes/memberRoutes.ts
+      device: src/routes/deviceRoutes.ts
+      admin: src/routes/adminRoutes.ts
+    services:
+      xendit: src/services/xenditService.ts
+      download: src/services/downloadService.ts
+      sftp: src/services/sftpService.ts
+      backup: src/services/backupService.ts
+  frontend:
+    framework: Svelte 4 + Vite
+    router: svelte-spa-router (Hash-based routing)
+    routes:
+      dashboard: '#/member/dashboard'
+      orders: '#/member/orders'
+      create_order: '#/member/orders/create'
+      licenses: '#/member/licenses'
+      tutorials: '#/member/tutorials'
+      tutorials_detail: '#/member/tutorials/:id'
+      downloads: '#/member/downloads'
+      profile: '#/member/profile'
+      login: '#/member/login'
+      register: '#/member/register'
+      admin_login: '#/admin/login'
+      admin_dashboard: '#/admin/dashboard'
+      admin_payments: '#/admin/payments'
+      admin_trials: '#/admin/trials/create'
+      admin_products: '#/admin/products'
+      admin_categories: '#/admin/categories'
+      admin_affiliate: '#/admin/affiliate'
+      admin_affiliate_history: '#/admin/affiliate/history'
+      admin_users: '#/admin/users'
+      admin_settings: '#/admin/settings'
+EndpointsMap:
+  admin_api:
+    login: POST /admin/login
+    session: GET /admin/api/session
+    dashboard: GET /admin/api/dashboard
+    payments: GET /admin/api/payments
+    payment_detail: GET /admin/api/payments/detail/:id
+    payment_confirm: POST /admin/api/payments/confirm/:id
+    payment_update_duration: POST /admin/api/payments/update-duration/:id
+    trials_products: GET /admin/api/trials/products
+    trials_create: POST /admin/api/trials/create
+    products: GET /admin/api/products
+    products_create: POST /admin/api/products/create
+    products_edit: POST /admin/api/products/edit/:id
+    products_delete: POST /admin/api/products/delete/:id
+    products_toggle_status: POST /admin/api/products/toggle-status/:id
+    products_upload_installer: POST /admin/api/products/:id/upload-installer
+    products_upload_chunk: POST /admin/api/products/:id/upload-chunk
+    products_delete_installer: POST /admin/api/products/:id/delete-installer
+    affiliate: GET /admin/api/affiliate
+    affiliate_mark_paid: POST /admin/api/affiliate/mark-paid
+    affiliate_history: GET /admin/api/affiliate/history
+    users: GET /admin/api/users
+    user_detail: GET /admin/api/users/:id
+    user_ban_toggle: POST /admin/api/users/:id/toggle-ban
+    user_verify_toggle: POST /admin/api/users/:id/toggle-verify
+    user_reset_password: POST /admin/api/users/:id/reset-password
+    user_update: POST /admin/api/users/:id/update
+    backups: GET /admin/api/backups
+    backup_start: POST /admin/api/backups/start
+    backup_status: GET /admin/api/backups/status/:id
+    backup_download: GET /admin/api/backups/download/:id
+    backup_delete: DELETE /admin/api/backups/:id
+  member_api:
+    session: GET /member/api/session
+    dashboard: GET /member/api/dashboard
+    tutorials: GET /member/api/tutorials
+    tutorial_detail: GET /member/api/tutorials/:productId
+    downloads: GET /member/api/downloads
+    products: GET /member/api/products
+    orders: GET /member/api/orders
+    order_licenses: GET /member/api/orders/:orderId/licenses
+    licenses: GET /member/api/licenses
+    profile: GET /member/api/profile
+    update_profile: POST /member/api/profile
+    change_password: POST /member/api/change-password
+    check_voucher: POST /member/api/check-voucher
+DatabaseMap:
+  engine: MySQL 8.x
+  orm: Prisma 6.x
+  schema: prisma/schema.prisma
+  tables:
+  - admin
+  - affiliate_member
+  - affiliate_payouts
+  - affiliate_transaksi
+  - categories
+  - change_device_logs
+  - database_backups
+  - downloads
+  - invoice
+  - invoice_pembayaran
+  - member_transaksi
+  - product_category
+  - product_reviews
+  - products
+  - products_key
+  - products_trial
+  - saldo_member
+  - sessions
+  - user
+  - user_balance_logs
+  - user_licenses
+DatabaseBackup:
+  script: pnpm run backupdb:scheme
+  file: backup/schema_backup.sql
+  timestamp: '2026-08-28T17:34:00+07:00'
+  size: 25KB
+  verified: true
+UISystem:
+  theme: Dark theme default with Dual-Theme CSS variables (public/css/appcenter-theme.css)
+  components:
+    Layout: client/src/lib/components/Layout.svelte
+    AdminLayout: client/src/lib/components/AdminLayout.svelte
+    AdminSidebar: client/src/lib/components/AdminSidebar.svelte
+    Topbar: client/src/lib/components/Topbar.svelte
+    Sidebar: client/src/lib/components/Sidebar.svelte
+    CustomDropdown: client/src/lib/components/CustomDropdown.svelte
+    CustomSelect: client/src/lib/components/CustomSelect.svelte
+    CustomCheckbox: client/src/lib/components/CustomCheckbox.svelte
+    SegmentedTabs: client/src/lib/components/SegmentedTabs.svelte
+    ThemeToggle: client/src/lib/components/ThemeToggle.svelte
+Invariants:
+- target-branch-reborn-only
+- no-master-branch-push
+- immutable-user-email
+- active-users-threshold-500
+- no-ai-slop
+- spa-hash-routing-without-hard-reload
+- test-admin-pin-085213
+- mysql-pool-limit-5-only
+- admin-navbar-no-help-button
+- admin-sidebar-strict-single-line
+- 9router-image-generation-to-downloads-only
+ToolingAndIntegrations:
+  9router:
+    url: http://localhost:20128
+    api_key: your_9router_api_key_here
+    image_model: ag/gemini-3.1-flash-image
+    output_directory: /Users/fiko942/Downloads
+    auto_db_upload: false
+DeveloperPreferences:
+  planning_style: Terse rough plan then immediate automated execution without cheerleading
+    phrases
+  image_workflow: Generate directly to /Users/fiko942/Downloads/ so user can test
+    manual UI upload
+  connection_pooling: Pool size strictly 5 in DATABASE_URL and sessionStore for resource
+    safety
+  sidebar_typography: Never allow sidebar navigation menu labels to wrap to second
+    line
+CurrentState:
+- Full database backup engine implemented with asynchronous background streaming,
+  progress polling, uncompressed raw .sql export, SHA-256 integrity checksum, and
+  audit logging
+- Linux VPS support and auto-prerequisites check (default-mysql-client / mariadb-client)
+  integrated with zero-dependency pure TypeScript Node.js streaming fallback
+- Admin table containers unified into single card layouts and rowsPerPage selector
+  standardized to table footers across AdminPayments, AdminCategories, AdminAffiliate,
+  and AdminAffiliateHistory
+- Admin and Member sidebar restyled with brand header glassmorphism, ecosystem status
+  pill, Akses Cepat console, and mobile close button
+- Recent transaction detail modal 404 Route Not Found bug resolved on Admin Dashboard
+- Dynamic categories integration completed across Member area (Dashboard, Product
+  Detail, Downloads)
+- Interactive category card filtering with real product counts and category icons
+  implemented on Member Dashboard
+- Centralized showToast helper and timer handles (toastTimer, copyFileUrlTimer, shakeTimer)
+  integrated with onDestroy lifecycle across AdminLogin and AdminProducts
+- Atomic conditional update implemented for processOrderSuccess in adminController.ts
+  to guarantee webhook idempotency
+- Device expiration and duration synchronized with order duration updates in updateOrderDuration
+  (adminController.ts)
+- Clean user email extracted prior to license creation in processOrderSuccess to prevent
+  raw JSON strings from corrupting user licenses
+- 'Dynamic MySQLStore options parsing from DATABASE_URL implemented in app.ts with
+  safe fallback and connectionLimit: 5'
+- Safe product and category deletion with existence validation and local uploaded
+  image/icon unlinking implemented in adminController.ts
+- O(1) Hash Map single-pass aggregation implemented for Admin Affiliate (apiGetAffiliate
+  in adminController.ts)
+- O(1) Hash Map indexing implemented for token-to-device and token-to-product resolution
+  in memberController.ts
+- onDestroy lifecycle hooks implemented across all Admin Svelte SPA views
+- Emergency temp file unlinking added to multer upload catch blocks
+- 'Prisma logging optimized in prisma.ts: warn/error in production and query only
+  if DEBUG_PRISMA=true'
+- Stream backpressure and sequential pipe streaming implemented for chunk upload merging
+  in uploadProductInstallerChunk
+- 10000ms AbortSignal timeouts attached to all outgoing Xendit payment requests
+- 'All admin tables audited and verified 100% server-side driven: Users, Affiliate,
+  Affiliate History, Payments, Products, Settings'
+- Numbered pagination standardized across all admin tables
+- Build and lint passes cleanly (0 errors), dist/ output ready for VPS production
+  deployment
+- Database schema verified & dumped to backup/schema_backup.sql (25KB)
+- 'SAVE v5 execution completed: schema backup updated to backup/schema_backup.sql'
+- Refined dark contrast across Downloads, Licenses, Product Detail, and Tutorials
+- Synchronized sliding dot active indicator alongside blue pill in member and admin
+  sidebars
+- Redesigned 3D centerpiece showcase on Dashboard with dark contrast platter and levitation
+  motion
+- Dynamic row numbering ('No') added to Licenses table matching Orders table format
+- Comprehensive Technical and Non-Technical Deep Analysis performed covering business
+  model, SaaS conversion funnels, affiliate commission mechanics, security rate-limiting,
+  and single-port Express 5 + Svelte 4 architecture
+- Superpowers specifications updated with docs/superpowers/specs/2026-08-28-comprehensive-system-deep-analysis.md
+- Superpowers roadmap plan created with docs/superpowers/plans/2026-08-28-comprehensive-system-evolution-plan.md
+- Master Documentation published to docs/MASTER_SYSTEM_DOCUMENTATION.md
+- Granular Technical Documentation (22 Subsystems) authored in docs/TECHNICAL_DOCUMENTATION.md
+  with deep analysis per feature, controller methods, ORM queries, rate-limiters,
+  HWID locks, and data contracts
+- Granular Non-Technical Documentation authored in docs/NON_TECHNICAL_DOCUMENTATION.md
+  covering business model, customer journey funnels, psychological UI/UX tokens, affiliate
+  economics, and operational SOPs
+- Component-by-Component UI Design System documented in docs/UI_COMPONENTS_AND_DESIGN_SYSTEM.md
+  covering CustomSelect, CustomCheckbox, CustomDropdown, SegmentedTabs, ThemeToggle,
+  Tooltip, Sidebar, AdminSidebar, Topbar, Layout, CSS tokens, and keyframes
+- Testing Suite & QA fully documented in docs/TECHNICAL_DOCUMENTATION.md covering
+  15 positive & negative E2E scenarios, embedded auto-booting server, production database
+  safety cleanup, and Zero Storage Footprint
+- 'SAVE v5 Protocol fully executed: 15-scenario E2E test suite passed 100% clean,
+  test entities purged from production database, zero storage footprint verified,
+  database schema backed up to backup/schema_backup.sql'
+- Database backup and payment gateway UI refactoring. 
+  - Split AdminSettings into Database and Payment Gateway tabs.
+  - Implemented GoQRIS expiry selection using CustomSelect (Hours/Minutes conversion).
+  - Formatted GoQRIS Admin Fee input with Rp prefix and thousand separators.
+  - Updated GoQRIS Guide documentation modal with clear typography and minimalist design.
+  - Integrated 2-page Bilingual (ID/EN) PDF Invoice generation with new Ziqva Labs branding and official address.
+  - Integrated GoQRIS API polling backend (controller & payment_settings model schema changes).
+- Standardized numbered pagination with arrow-only previous and next buttons and centered page numbers with ellipsis across all member & admin tables.
+- Relocated page size selector to table footer pagination bar with smart auto-alignment and dynamic upward opening in CustomSelect.
+- Redesigned Affiliate Payout Modal into a bespoke Pro Max Fintech experience with interactive live virtual ATM card preview (BCA, Mandiri, BNI, BRI), metallic EMV chip, contactless wave, dynamic spacing, cardholder embossing, and 4-bank fast selector grid.
+- Redesigned Coupon Customization Modal with interactive live ticket voucher preview and quick code suggestions.
+- Upgraded Affiliate dashboard 4 hero stat cards with domain-specific icons (Ticket voucher, Settlement hourglass, Revenue growth, Bank building), unclipped monospaced code, and tactile copy button.
+- Rebalanced the 4 hero stat cards on Affiliate dashboard into sleek, compact metric cards with proportional padding and zero UI bloat.
+- Eliminated generic AI floating header banner box on Affiliate and Payouts pages and standardized to native, clean page typography.
+
+NextSteps:
+- Maintain and monitor production deployment
+KnownIssues: []
+Unknowns: []

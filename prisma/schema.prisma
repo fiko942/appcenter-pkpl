@@ -1,0 +1,515 @@
+generator client {
+  provider      = "prisma-client"
+  output        = "../src/generated/client"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  id       Int     @id @default(autoincrement())
+  username String  @db.LongText
+  password String  @db.LongText
+  up_link  String  @db.LongText
+  ip       String  @db.LongText
+  role     String? @db.VarChar(100)
+  pin      String? @db.VarChar(10) // PIN for admin panel login
+  email    String? @db.VarChar(255) // Registered email for OTP & security notifications
+}
+
+model affiliate_member {
+  id                   Int     @id @default(autoincrement())
+  created              Int
+  email                String  @db.VarChar(255)
+  unix                 String  @db.VarChar(255)
+  kupon                String? @db.VarChar(255)
+  kupon_decrease_value Int
+  kupon_income_idr     Int
+  payout_bank_name     String? @db.VarChar(255)
+  payout_no_rek        String? @db.VarChar(255)
+  payout_name          String? @db.VarChar(255)
+}
+
+model affiliate_payouts {
+  id              Int    @id @default(autoincrement())
+  created         Int
+  affiliate_email String @db.VarChar(255)
+  accepted_by     String @db.VarChar(255)
+  note            String @db.VarChar(255)
+  amount          Int
+}
+
+model affiliate_transaksi {
+  id                  Int    @id @default(autoincrement())
+  product_name        String @db.VarChar(255)
+  created_at          Int
+  affiliate_income    Int
+  tanggal             Int
+  bulan               Int
+  tahun               Int
+  invoice_code        String @db.VarChar(255)
+  already_paid        Int
+  paid_at             Int?
+  affiliator_email    String @db.VarChar(255)
+  customer_email      String @db.VarChar(255)
+  customer_name       String @db.VarChar(255)
+  customer_paid_price Int
+}
+
+model app_admin_session {
+  id       Int    @id @default(autoincrement())
+  username String @db.LongText
+  session  String @db.LongText
+  created  Int
+  ip       String @db.VarChar(255)
+}
+
+model customized_token {
+  id         Int     @id @default(autoincrement())
+  expired    Int
+  token      String  @db.VarChar(255)
+  machine_id String? @db.VarChar(255)
+  product    String  @db.VarChar(255)
+  created    Int?
+}
+
+model device {
+  id         Int    @id @default(autoincrement())
+  order_id   Int
+  email      String @db.LongText
+  expired    Int
+  product    String @db.LongText
+  machine_id String @db.LongText
+  created    Int
+  duration   Int
+  label      String @db.VarChar(255)
+}
+
+model device_online_status {
+  id         Int    @id @default(autoincrement())
+  user       String @db.Text
+  last_ping  Int
+  machine_id String @db.VarChar(255)
+  is_trial   Int    @default(0)
+}
+
+model file {
+  id          String @id @db.VarChar(75)
+  name        String @db.LongText
+  extension   String @db.LongText
+  size        String @db.LongText
+  is_setup    Int
+  created     Int
+  uploaded_by String @db.VarChar(255)
+  product_id  Int
+  public      Int
+  alias       String @db.LongText
+  downloaded  Int
+}
+
+model invoice {
+  id      String @id @db.VarChar(255)
+  data    String @db.LongText
+  email   String @db.LongText
+  created Int?
+}
+
+model labs_membership_session {
+  id      Int    @id @default(autoincrement())
+  email   String @db.VarChar(255)
+  session String @db.VarChar(255)
+}
+
+model live_chat_attachment {
+  id         String  @id @db.VarChar(255)
+  name       String? @db.VarChar(255)
+  size       BigInt?
+  message_id String? @db.VarChar(255)
+  sender_id  String? @db.VarChar(255)
+  file_id    String? @db.VarChar(255)
+  type       String? @db.VarChar(255)
+}
+
+model live_chat_message {
+  id             String  @id @db.VarChar(255)
+  seen_by_ids    String? @db.LongText
+  message        String? @db.LongText
+  sender_id      String? @db.VarChar(255)
+  sent           BigInt?
+  attachment_ids String? @db.LongText
+  ip             String? @db.VarChar(100)
+  is_public      Int?
+  machine_id     String? @db.VarChar(255)
+}
+
+model live_chat_user {
+  id                     String  @id @db.VarChar(255)
+  name                   String? @db.VarChar(255)
+  email                  String? @db.VarChar(255)
+  since                  BigInt?
+  role                   String? @db.VarChar(100)
+  special_role           Int?
+  banned                 Int?
+  avatar                 String? @db.Text
+  ip                     String? @db.VarChar(100)
+  updated_name           Int?
+  updated                BigInt?
+  online                 Int?
+  machine_id             String? @db.VarChar(100)
+  currently_opening_chat Int?
+}
+
+model monitoring_accounts {
+  id                              Int    @id @default(autoincrement())
+  new_order_count                 Int
+  new_order_potensi               Int
+  ready_for_send                  Int
+  ready_for_send_potensi          Int
+  order_complain                  Int
+  order_cancelation               Int
+  chat_unread                     Int
+  discuss                         Int
+  review                          Int
+  product_seen                    Int
+  balance                         Int
+  reputation_level                Int
+  reputation_score                Int
+  order_deadline                  Int
+  order_total_balance             Int
+  order_deadline_background_color Int
+  shop_avatar                     String @db.VarChar(255)
+  shop_badge                      String @db.VarChar(255)
+  siap_dikirim_date               Int
+  last_updated                    Int
+  product_count                   Int
+  cookies                         String @db.LongText
+}
+
+model monitoring_cookies {
+  id      Int    @id @default(autoincrement())
+  cookies String @db.LongText
+}
+
+model news {
+  id      Int    @id @default(autoincrement())
+  created Int
+  message String @db.Text
+}
+
+model online_devices {
+  id                Int     @id @default(autoincrement())
+  product_name      String  @db.VarChar(255)
+  last_online_epoch Int?
+  last_online_date  Int?
+  last_online_month Int?
+  last_online_year  Int?
+  machine_id        String? @db.VarChar(255)
+  customer_name     String  @db.VarChar(255)
+  customer_email    String  @db.VarChar(255)
+}
+
+model order_list {
+  id           Int    @id @default(autoincrement())
+  items        String @db.LongText
+  created      Int
+  confirmed_by String @db.LongText
+  status       String @db.LongText
+  payment      String @db.LongText
+  status_badge String @db.LongText
+  last_updated String @default("") @db.VarChar(50)
+  note         String @db.LongText
+  user         String @db.LongText
+  duration     Int
+  voucer       String @db.LongText
+
+  // Payment Gateway Integration (GoQRIS / Xendit)
+  payment_request_id String? @db.VarChar(100) // ref_id / trx_id / payment request ID
+  payment_id         String? @db.VarChar(100) // transaction ID
+  channel_code       String? @db.VarChar(50) // QRIS, etc
+  total_amount       Int? // Total amount including admin fee & unique code
+  admin_fee          Int?    @default(0) // Admin fee charged to buyer
+  payment_url        String? @db.Text // Redirect URL or QR display URL
+  va_number          String? @db.VarChar(50) // Virtual Account number
+  qr_string          String? @db.Text // QR code raw string or base64 image URL
+  payment_expires_at Int? // Epoch timestamp when payment expires
+  paid_at            Int? // Epoch timestamp when paid
+  invoice_token      String? @unique @db.VarChar(64) // Unique obscure token for public invoice & PDF
+}
+
+model payment_settings {
+  id                Int      @id @default(autoincrement())
+  gateway_name      String   @unique @db.VarChar(50) // 'goqris'
+  api_key           String?  @db.VarChar(255)
+  project_name      String?  @db.VarChar(255)
+  callback_url      String?  @db.VarChar(500) // Endpoint URL for GoQRIS webhook callback
+  webhook_secret    String?  @db.VarChar(255) // Secret key to verify X-GoQRIS-Signature HMAC
+  is_active         Boolean  @default(true)
+  expiry_minutes    Int      @default(1440) // default 24 hours (1440 mins)
+  admin_fee         Int      @default(0) // Admin fee in Rupiah
+  admin_fee_percent Float    @default(0) // Admin fee in %
+  updated_at        DateTime @default(now()) @updatedAt
+}
+
+model categories {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(191)
+  slug        String  @unique @db.VarChar(191)
+  icon        String? @db.LongText
+  description String? @db.LongText
+  is_active   Boolean @default(true)
+  created_at  Int     @default(dbgenerated("(unix_timestamp())"))
+}
+
+model products {
+  id               Int     @id @default(autoincrement())
+  name             String  @db.LongText
+  image            String  @db.LongText
+  product_id       Int
+  description      String  @db.LongText
+  price            Float   @db.Float
+  is_discount      Boolean
+  discount_percent Int
+  is_active        Boolean @default(true)
+  tutorials        String? @db.LongText
+  installer_files  String? @db.LongText
+  category_id      Int?
+  category_ids     String? @db.LongText
+  is_bundle        Boolean @default(false)
+  bundle_items     String? @db.LongText
+}
+
+model refund_session {
+  id      Int     @id @default(autoincrement())
+  email   String? @db.VarChar(255)
+  session String? @db.VarChar(255)
+}
+
+model reset_password {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.LongText
+  email    String  @db.LongText
+  is_taked Boolean
+  created  Int
+  expired  Int
+  token    String  @db.VarChar(100)
+  user_id  Int?
+}
+
+model token_device_activation {
+  id       Int     @id @default(autoincrement())
+  token    String  @db.LongText
+  created  Int
+  order_id Int
+  duration Int
+  product  String  @db.TinyText
+  taked    Int?
+  taked_at Int?
+  taked_ip String? @db.LongText
+  user     String? @db.LongText
+}
+
+model trial {
+  id         Int    @id @default(autoincrement())
+  user       String @db.VarChar(255)
+  machine_id String @db.Text
+  created    Int
+  expired    Int
+  product    String @db.VarChar(255)
+  token      String @db.VarChar(255)
+}
+
+model update_files {
+  id                Int    @id @default(autoincrement())
+  zip_file          String @db.VarChar(255)
+  file_name         String @db.VarChar(255)
+  uploaded          Int
+  product_name      String @db.VarChar(255)
+  build_number      Int?
+  build_version_str String @db.VarChar(25)
+  notes             String @db.Text
+  size              Int?
+}
+
+model user {
+  id          Int     @id @default(autoincrement())
+  original_id Int
+  email       String  @db.LongText
+  password    String  @db.LongText
+  verified    Boolean
+  banned      Boolean
+  created     Int
+  ip          String  @db.LongText
+  name        String  @db.LongText
+  avatar      String  @db.VarChar(255)
+  whatsapp    String  @db.LongText
+  company     String  @db.LongText
+}
+
+model user_location {
+  id            Int     @id @default(autoincrement())
+  ip            String? @db.VarChar(100)
+  user_id       Int?
+  user_email    String? @db.VarChar(100)
+  user_name     String? @db.VarChar(100)
+  user_verified String? @db.VarChar(100)
+  user_since    Int?
+  country       String? @db.VarChar(100)
+  region        String? @db.VarChar(100)
+  timezone      String? @db.VarChar(100)
+  city          String? @db.VarChar(100)
+  latitude      Float?  @db.Float
+  longtitude    Float?  @db.Float
+}
+
+model verification_token {
+  id       Int     @id @default(autoincrement())
+  name     String  @db.LongText
+  email    String  @db.LongText
+  token    String  @db.VarChar(244)
+  is_taked Boolean
+  created  Int
+  expired  Int
+  user_id  Int     @default(0)
+}
+
+model smtp_settings {
+  id           Int      @id @default(autoincrement())
+  host         String   @db.VarChar(255)
+  port         Int      @default(587)
+  secure       Boolean  @default(false)
+  encryption   String   @default("tls") @db.VarChar(20) // 'none', 'tls', 'ssl'
+  username     String   @db.VarChar(255)
+  password     String   @db.VarChar(500)
+  from_email   String   @db.VarChar(255)
+  from_name    String   @default("AppCenter") @db.VarChar(255)
+  reply_to     String?  @db.VarChar(255)
+  is_active    Boolean  @default(true)
+  require_auth Boolean  @default(true)
+  updated_at   DateTime @default(now()) @updatedAt
+}
+
+model visitor_message_limit {
+  id      Int    @id @default(autoincrement())
+  ip      String @db.VarChar(255)
+  created Int
+}
+
+model voucers {
+  id              Int     @id @default(autoincrement())
+  use_limit_claim Boolean
+  limit_claim     Int
+  code            String  @db.LongText
+  claimed         Int
+  created         Int
+  created_by      String  @db.LongText
+  voucer_type     String  @db.VarChar(255)
+  decrease_value  Int
+  products        String  @db.Text
+}
+
+model database_backups {
+  id                    Int     @id @default(autoincrement())
+  filename              String  @db.VarChar(255)
+  file_path             String  @db.Text
+  file_size             BigInt  @default(0)
+  checksum_sha256       String? @db.VarChar(64)
+  table_count           Int     @default(0)
+  record_count          Int     @default(0)
+  status                String  @db.VarChar(50)
+  progress              Int     @default(0)
+  current_step          String? @db.VarChar(255)
+  error_message         String? @db.Text
+  created_by            String  @db.VarChar(255)
+  created_at            Int
+  completed_at          Int?
+  download_count        Int     @default(0)
+  last_download_at      Int?
+  last_download_by      String? @db.VarChar(255)
+  last_download_ip      String? @db.VarChar(100)
+  last_download_ua      String? @db.Text
+  last_download_browser String? @db.VarChar(150)
+  download_history      String? @db.LongText
+}
+
+model device_hwid_history {
+  id         Int    @id @default(autoincrement())
+  token_id   Int?
+  order_id   Int?
+  user_email String @db.VarChar(255)
+  product    String @db.VarChar(255)
+  old_hwid   String @db.Text
+  new_hwid   String @db.Text
+  created_at Int
+  ip         String @db.VarChar(100)
+}
+
+model sessions {
+  session_id String  @id @db.VarChar(128)
+  expires    Int     @db.UnsignedInt
+  data       String? @db.MediumText
+}
+
+// ==========================================
+// ZIQVA OAUTH 2.0 & SSO SUBSYSTEM
+// ==========================================
+
+model oauth_clients {
+  id                    Int      @id @default(autoincrement())
+  client_id             String   @unique @db.VarChar(64)
+  client_secret_hash    String?  @db.VarChar(255)
+  name                  String   @db.VarChar(255)
+  description           String?  @db.Text
+  icon_url              String?  @db.Text
+  allowed_redirect_uris String   @db.Text // JSON Array string: ["https://app.com/callback"]
+  allowed_origins       String?  @db.Text // JSON Array string: ["https://app.com", "http://localhost:3000"]
+  allowed_scopes        String   @default("profile email") @db.VarChar(255)
+  is_trusted            Boolean  @default(false)
+  is_active             Boolean  @default(true)
+  created_by            String?  @db.VarChar(100)
+  created_at            DateTime @default(now())
+  updated_at            DateTime @default(now()) @updatedAt
+}
+
+model oauth_auth_codes {
+  id                    Int      @id @default(autoincrement())
+  code                  String   @unique @db.VarChar(128)
+  client_id             String   @db.VarChar(64)
+  user_id               Int
+  redirect_uri          String   @db.Text
+  scopes                String   @db.VarChar(255)
+  code_challenge        String?  @db.VarChar(128)
+  code_challenge_method String?  @db.VarChar(10) // 'S256' | 'plain'
+  expires_at            DateTime
+  is_used               Boolean  @default(false)
+  created_at            DateTime @default(now())
+}
+
+model oauth_access_tokens {
+  id                 Int       @id @default(autoincrement())
+  token              String    @unique @db.VarChar(128)
+  refresh_token      String?   @unique @db.VarChar(128)
+  client_id          String    @db.VarChar(64)
+  user_id            Int
+  scopes             String    @db.VarChar(255)
+  expires_at         DateTime
+  refresh_expires_at DateTime?
+  revoked            Boolean   @default(false)
+  ip                 String?   @db.VarChar(100)
+  user_agent         String?   @db.Text
+  created_at         DateTime  @default(now())
+  last_used_at       DateTime  @default(now()) @updatedAt
+}
+
+model oauth_user_consents {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  client_id  String   @db.VarChar(64)
+  scopes     String   @db.VarChar(255)
+  granted_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@unique([user_id, client_id])
+}

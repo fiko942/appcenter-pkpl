@@ -1,0 +1,49 @@
+# Node modules
+node_modules/
+
+# Build directory
+dist/
+client/dist/
+
+# Environment variables
+.env
+.env.*
+.env.local
+.env.production
+!.env.example
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+coverage/
+
+# Release archives
+release.zip
+*.zip
+
+# Prisma
+# Keep schema.prisma, but ignore generated clients if they are inside node_modules (default)
+# Since we generate client to src/generated, we might want to commit it if it's not too large/binary heavy,
+# BUT usually generated code is ignored. However, you explicitly copy it in build. 
+# It is safer to IGNORE the generated binaries to avoid bloating the repo.
+src/generated/
+backup/ziqva_labs.sql
+package-lock.json
+backup/schema_backup.sql
+storage/
+scratch/
