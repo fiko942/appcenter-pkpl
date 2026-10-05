@@ -9,7 +9,7 @@
     "postinstall": "prisma generate",
     "predev": "prisma generate",
     "dev:server": "nodemon src/server.ts",
-    "dev:client": "pnpm --filter appcenter-client run dev",
+    "dev:client": "cd client && pnpm run dev",
     "dev": "concurrently -k -n \"SERVER,CLIENT\" -c \"blue,magenta\" \"pnpm run dev:server\" \"pnpm run dev:client\"",
     "lint": "eslint \"src/**/*.{ts,js}\" --ext .ts",
     "format": "prettier --write \"src/**/*.{ts,js,json,md}\"",
