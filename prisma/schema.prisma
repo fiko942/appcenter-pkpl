@@ -260,7 +260,7 @@ model categories {
   icon        String? @db.LongText
   description String? @db.LongText
   is_active   Boolean @default(true)
-  created_at  Int     @default(dbgenerated("(unix_timestamp())"))
+  created_at  Int     @default(0)
 }
 
 model products {
