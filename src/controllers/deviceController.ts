@@ -158,7 +158,7 @@ export const showDeviceLicensePage = async (req: Request, res: Response) => {
     // Ambil semua device milik user
     const devices = await prisma.device.findMany({ where: { email: userEmail }, orderBy: { id: 'desc' } });
 
-    const deviceData: DeviceLicenseData[] = devices.map(device => ({
+    const deviceData: DeviceLicenseData[] = devices.map((device: any) => ({
         id: device.id,
         licenseKey: device.label || String(device.id),
         isActivated: !!device.machine_id,
